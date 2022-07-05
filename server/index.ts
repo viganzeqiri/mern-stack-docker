@@ -21,7 +21,9 @@ interface CustomRequest<T> extends Request {
 
 async function main() {
   const app: Express = express();
-  await mongoose.connect(DB_URL_LOCAL!);
+  await mongoose.connect("mongodb://database:27017/admin", {
+    useNewUrlParser: true,
+  });
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cors());
