@@ -1,27 +1,29 @@
 version: "3.8"
 services:
-  database:
-    image: mongo
+  be:
+    container_name: be-container
     restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - my_data:/data/db
-  frontend:
-    build: ./client
-    container_name: frontend_c
-    ports:
-      - "3000:3000"
-    stdin_open: true
-  backend:
     build: ./server
-    container_name: backend_c
     ports:
-      - "4000:4000"
-    volumes:
-      - ./server:/app
-      - ./app/node_modules
+      - 4000:4000
     depends_on:
-      - database
+      - mongo
+  client:
+    container_name: fe-container
+    restart: always
+    build: ./client
+    ports:
+      - 3000:3000
+    depends_on:
+      - be
+  mongo:
+    container_name: mongo-backend
+    image: mongo
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - apiDB:/data/db
 volumes:
-  my_data:
+  apiDB:

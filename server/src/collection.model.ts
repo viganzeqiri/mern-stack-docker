@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
-import { mongoose } from "../index";
+import { connection } from "../index";
 
-const Collection = mongoose.model(
+const Collection = connection.model(
   "Collection",
   new Schema({
     image: {

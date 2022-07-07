@@ -1,15 +1,15 @@
-FROM node:17-alpine
+FROM node
 
 RUN npm install -g nodemon
 
 WORKDIR /app
 
-COPY package.json .
+COPY package*.json .
 
-RUN npm install
+RUN yarn 
 
 COPY . .
 
 EXPOSE 4000
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Collection = void 0;
 const mongoose_1 = require("mongoose");
 const index_1 = require("../index");
-const Collection = index_1.mongoose.model("Collection", new mongoose_1.Schema({
+const Collection = index_1.connection.model("Collection", new mongoose_1.Schema({
     image: {
         type: String,
         required: true,

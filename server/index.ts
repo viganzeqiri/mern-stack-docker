@@ -1,4 +1,3 @@
-import "dotenv/config";
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -11,19 +10,24 @@ import { FormStateTypes } from "./src/types";
 
 import { Collection } from "./src/collection.model";
 
-const port = process.env.PORT;
-const DB_URL = process.env.DB_URL;
-const DB_URL_LOCAL = process.env.DB_URL_LOCAL;
+const port = 4001;
 
 interface CustomRequest<T> extends Request {
   body: T;
 }
 
+mongoose
+  .connect("mongodb://mongo:27017/posts")
+  .then(() => {
+    console.log("MONGODB CONNECTED!");
+  })
+  .catch((err) => {
+    console.log("MONGODB FAILED TO CONNECT!");
+  });
+const connection = mongoose.connection;
+
 async function main() {
   const app: Express = express();
-  await mongoose.connect("mongodb://database:27017/admin", {
-    useNewUrlParser: true,
-  });
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cors());
@@ -89,4 +93,4 @@ main()
     console.log("Failed with error: ", err);
   });
 
-export { mongoose };
+export { connection };

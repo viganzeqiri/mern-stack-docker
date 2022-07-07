@@ -12,24 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mongoose = void 0;
-require("dotenv/config");
+exports.connection = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const mongoose_1 = __importDefault(require("mongoose"));
-exports.mongoose = mongoose_1.default;
 const express_validator_1 = require("express-validator");
 const collection_model_1 = require("./src/collection.model");
-const port = process.env.PORT;
-const DB_URL = process.env.DB_URL;
-const DB_URL_LOCAL = process.env.DB_URL_LOCAL;
+const port = 4001;
+mongoose_1.default
+    .connect("mongodb://mongo:27017/posts")
+    .then(() => {
+    console.log("MONGODB CONNECTED!");
+})
+    .catch((err) => {
+    console.log("MONGODB FAILED TO CONNECT!");
+});
+const connection = mongoose_1.default.connection;
+exports.connection = connection;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = (0, express_1.default)();
-        yield mongoose_1.default.connect(DB_URL_LOCAL);
         app.use(body_parser_1.default.urlencoded({ extended: true }));
         app.use((0, cors_1.default)());
         app.use(body_parser_1.default.json());
